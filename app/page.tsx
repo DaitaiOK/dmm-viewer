@@ -80,11 +80,12 @@ export default function Home() {
           value={genreId ?? ''}
           onChange={e => setGenreId(e.target.value || null)}
         >
-          {GENRES.map(g => (
-            <option key={g.label} value={g.genreId ?? ''}>
-              {g.label}
-            </option>
-          ))}
+          {GENRES.map((g: { label: string; genreId: string | null }) => (
+  <option key={g.label} value={g.genreId ?? ''}>
+    {g.label}
+  </option>
+))}
+
         </select>
       </div>
 
