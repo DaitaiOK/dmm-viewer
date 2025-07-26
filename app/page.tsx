@@ -49,8 +49,8 @@ export default function Home() {
         const items = data.result?.items || [];
 
         const validItems = items
-          .filter(item => item.sampleImageURL?.sample_l?.image?.length > 0 && item.content_id)
-          .map(item => {
+          .filter((item: any) => item.sampleImageURL?.sample_l?.image?.length > 0 && item.content_id)
+          .map((item: any) => {
             const contentId = item.content_id;
             const dmmURL = `https://www.dmm.co.jp/digital/videoa/-/detail/=/cid=${contentId}`;
             const encoded = encodeURIComponent(dmmURL);
@@ -78,18 +78,16 @@ export default function Home() {
         <select
           className="rounded bg-gray-800 text-white px-2 py-1 text-sm"
           value={genreId ?? ''}
-          onChange={e => setGenreId(e.target.value || null)}
+          onChange={(e) => setGenreId(e.target.value || null)}
         >
-          {GENRES.map((g: { label: string; genreId: string | null }) => (
-  <option key={g.label} value={g.genreId ?? ''}>
-    {g.label}
-  </option>
-))}
-
+          {GENRES.map((g) => (
+            <option key={g.label} value={g.genreId ?? ''}>
+              {g.label}
+            </option>
+          ))}
         </select>
       </div>
 
-      {/* 読み込み中 or 表示 */}
       {videos.length === 0 ? (
         <div className="flex items-center justify-center h-full">
           <p>読み込み中...</p>
@@ -101,17 +99,17 @@ export default function Home() {
           loop
           mousewheel
           modules={[Mousewheel]}
-          className="w-screen h-screen pt-16"
+          className="w-screen h-screen pt-24"
         >
           {videos.map((item, index) => (
             <SwiperSlide key={index} className="w-full h-full relative">
-              {/* タイトル表示（上部固定ではなく、動画ごとに切り替わる） */}
-              <div className="absolute top-14 w-full z-20 text-center bg-black bg-opacity-70 px-4 py-2">
+              {/* タイトル（作品ごとに切り替え） */}
+              <div className="absolute top-12 w-full z-20 text-center bg-black bg-opacity-70 px-4 py-3">
                 <a
                   href={item.affiliateURL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white text-base font-semibold hover:underline"
+                  className="text-white text-lg font-semibold hover:underline"
                 >
                   {item.title}
                 </a>
