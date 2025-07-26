@@ -112,29 +112,29 @@ export default function Home() {
               >
                 {item.sampleImageURL.sample_l.image.map((img: string, i: number) => (
                   <SwiperSlide
-                    key={i}
-                    className="relative w-full h-full cursor-pointer"
-                    onClick={() => window.open(item.affiliateURL, '_blank')}
-                  >
-                    <img
-                      src={img}
-                      alt={`サンプル${i + 1}`}
-                      className="object-contain w-full h-full"
-                    />
-                    <div className="absolute bottom-0 w-full bg-black bg-opacity-70 px-4 py-3">
-                      <a
-                        href={item.affiliateURL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-white text-base font-semibold block leading-snug hover:underline"
-                      >
-                        {item.title}
-                      </a>
-                      <p className="text-gray-300 text-xs mt-1">
-                        ジャンル: {GENRES.find(g => g.genreId === genreId)?.label || 'すべて'}
-                      </p>
-                    </div>
-                  </SwiperSlide>
+                     key={i}
+                       className="relative w-full h-full cursor-pointer flex flex-col items-center justify-center"
+                       onClick={() => window.open(item.affiliateURL, '_blank')}
+                               >
+                        <img
+                             src={img}
+                              alt={`サンプル${i + 1}`}
+                              className="object-contain w-full h-[85vh]"
+                                   />
+  <div className="w-full bg-black bg-opacity-70 px-4 py-3 mt-2">
+    <a
+      href={item.affiliateURL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-white text-base font-semibold block leading-snug hover:underline text-center"
+    >
+      {item.title}
+    </a>
+    <p className="text-gray-300 text-xs mt-1 text-center">
+      ジャンル: {GENRES.find(g => g.genreId === genreId)?.label || 'すべて'}
+    </p>
+  </div>
+</SwiperSlide>
                 ))}
               </Swiper>
             </SwiperSlide>
