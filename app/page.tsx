@@ -36,8 +36,8 @@ export default function Home() {
   useEffect(() => {
     async function fetchVideos() {
       const api_id = 'yBDgfQWq1EUKHPRR6KSy';
-      const aff_id_api = 'b1219d-990';   // API用
-      const aff_id_link = 'b1219d-001';  // アフィリンク用
+      const aff_id_api = 'b1219d-990';
+      const aff_id_link = 'b1219d-001';
       const offset = Math.floor(Math.random() * 100);
 
       const base = `https://api.dmm.com/affiliate/v3/ItemList?api_id=${api_id}&affiliate_id=${aff_id_api}&site=FANZA&service=digital&floor=videoa&hits=10&offset=${offset}&sort=date&output=json`;
@@ -49,8 +49,8 @@ export default function Home() {
         const items = data.result?.items || [];
 
         const validItems = items
-          .filter((item: any) => item.sampleImageURL?.sample_l?.image?.length > 0 && item.content_id)
-          .map((item: any) => {
+          .filter(item => item.sampleImageURL?.sample_l?.image?.length > 0 && item.content_id)
+          .map(item => {
             const contentId = item.content_id;
             const dmmURL = `https://www.dmm.co.jp/digital/videoa/-/detail/=/cid=${contentId}`;
             const encoded = encodeURIComponent(dmmURL);
@@ -73,13 +73,14 @@ export default function Home() {
 
   return (
     <main className="h-screen w-screen bg-black text-white overflow-hidden">
-      <div className="absolute top-2 left-2 z-20">
+      {/* ジャンル選択 */}
+      <div className="absolute top-0 left-0 w-full z-30 px-4 py-2">
         <select
           className="rounded bg-gray-800 text-white px-2 py-1 text-sm"
           value={genreId ?? ''}
-          onChange={(e) => setGenreId(e.target.value || null)}
+          onChange={e => setGenreId(e.target.value || null)}
         >
-          {GENRES.map((g) => (
+          {GENRES.map(g => (
             <option key={g.label} value={g.genreId ?? ''}>
               {g.label}
             </option>
@@ -87,6 +88,7 @@ export default function Home() {
         </select>
       </div>
 
+      {/* 読み込み中 or 表示 */}
       {videos.length === 0 ? (
         <div className="flex items-center justify-center h-full">
           <p>読み込み中...</p>
@@ -98,10 +100,25 @@ export default function Home() {
           loop
           mousewheel
           modules={[Mousewheel]}
-          className="w-screen h-screen"
+          className="w-screen h-screen pt-16"
         >
           {videos.map((item, index) => (
-            <SwiperSlide key={index} className="w-full h-full">
+            <SwiperSlide key={index} className="w-full h-full relative">
+              {/* タイトル表示（上部固定ではなく、動画ごとに切り替わる） */}
+              <div className="absolute top-14 w-full z-20 text-center bg-black bg-opacity-70 px-4 py-2">
+                <a
+                  href={item.affiliateURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white text-base font-semibold hover:underline"
+                >
+                  {item.title}
+                </a>
+                <p className="text-gray-300 text-xs mt-1">
+                  ジャンル: {GENRES.find(g => g.genreId === genreId)?.label || 'すべて'}
+                </p>
+              </div>
+
               <Swiper
                 direction="horizontal"
                 slidesPerView={1}
@@ -112,29 +129,16 @@ export default function Home() {
               >
                 {item.sampleImageURL.sample_l.image.map((img: string, i: number) => (
                   <SwiperSlide
-                     key={i}
-                       className="relative w-full h-full cursor-pointer flex flex-col items-center justify-center"
-                       onClick={() => window.open(item.affiliateURL, '_blank')}
-                               >
-                        <img
-                             src={img}
-                              alt={`サンプル${i + 1}`}
-                              className="object-contain w-full h-[80vh]"
-                                   />
-  <div className="w-full bg-black bg-opacity-70 px-4 py-3 mt-2">
-    <a
-      href={item.affiliateURL}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-white text-lg font-semibold block leading-snug hover:underline text-center"
-    >
-      {item.title}
-    </a>
-    <p className="text-gray-300 text-sm mt-1 text-center">
-      ジャンル: {GENRES.find(g => g.genreId === genreId)?.label || 'すべて'}
-    </p>
-  </div>
-</SwiperSlide>
+                    key={i}
+                    className="w-full h-full cursor-pointer"
+                    onClick={() => window.open(item.affiliateURL, '_blank')}
+                  >
+                    <img
+                      src={img}
+                      alt={`サンプル${i + 1}`}
+                      className="object-contain w-full h-full"
+                    />
+                  </SwiperSlide>
                 ))}
               </Swiper>
             </SwiperSlide>
