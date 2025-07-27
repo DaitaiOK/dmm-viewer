@@ -73,6 +73,13 @@ export default function Home() {
 
   return (
     <main className="h-screen w-screen bg-black text-white overflow-hidden">
+      {/* 右上に固定リンク */}
+    <a
+      href="/about"
+      className="absolute top-2 right-2 z-50 text-xs text-gray-400 underline hover:text-white"
+    >
+      このサイトについて
+    </a>
       {/* ジャンル選択 */}
       <div className="absolute top-0 left-0 w-full z-30 px-4 py-2">
         <select
