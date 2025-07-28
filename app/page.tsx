@@ -37,7 +37,7 @@ export default function Home() {
     async function fetchVideos() {
       const api_id = 'yBDgfQWq1EUKHPRR6KSy';
       const aff_id_api = 'b1219d-990';
-      const aff_id_link = 'b1219d-001';
+      const aff_id_link = 'b1219d-002';
       const offset = Math.floor(Math.random() * 100);
 
       const base = `https://api.dmm.com/affiliate/v3/ItemList?api_id=${api_id}&affiliate_id=${aff_id_api}&site=FANZA&service=digital&floor=videoa&hits=10&offset=${offset}&sort=date&output=json`;
